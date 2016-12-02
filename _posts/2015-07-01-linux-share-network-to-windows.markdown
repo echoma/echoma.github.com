@@ -77,12 +77,6 @@ windows上用交叉线连上linux那个网卡后，系统会多出个连接，wi
 
 这时去Linux上`ping 192.168.0.20`也是通的了。
 
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
-
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
-
-Jekyll also offers powerful support for code snippets:
-
 ## 共享文件、共享鼠标键盘
 
 这时Linux和Windows其实是在一个小的子网里了，所以不仅能共享网络上网，共享文件也是水到渠成的事，装个`samba`就可以了。
