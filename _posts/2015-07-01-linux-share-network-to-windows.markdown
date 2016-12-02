@@ -19,7 +19,9 @@ categories: linux network 折腾
 三步走：
 
 1. Linux主机上加装一个USB有线网卡，让Windows主机通过网线连接到Linux主机。
+
 2. Linux系统里对这个USB网卡包转发到原来上网的网卡上。
+
 3. Windows系统把网关设置为Linux主机，就可以上网啦。
 
 ## 实施步骤一：让Windows主机有线连接到Linux主机
@@ -30,11 +32,15 @@ categories: linux network 折腾
 
 把USB网卡插到Linux主机的USB接口上，安装驱动：
 
-> 首先要去找网卡驱动。有的买来的网卡就带了驱动光盘，也可以找找有没有Linux驱动。这种网卡的芯片都是AX88772C的，google一下就可以下载到Linux的驱动源码。
-> 源码解压后是类似这样的文件夹：`AX88772C_772B_772A_760_772_178_LINUX_DRIVER_v4.17.0_Source`
-> 根据文件夹里README文件来编译就可以了，基本上就是 `make && make install`
-> 如果编译碰到类型datetime的报警，就需要修改下makefile里的`EXTRA_CFLAGS`，给它加个`no-error`选项，如这样：`EXTRA_CFLAGS = -DEXPORT_SYMTAB -Wno-error=date-time`
-> 编译、安装完成后，还需要按照README里写的启动一下这个驱动模块：`modprobe asix`
+* 首先要去找网卡驱动。有的买来的网卡就带了驱动光盘，也可以找找有没有Linux驱动。这种网卡的芯片都是AX88772C的，google一下就可以下载到Linux的驱动源码。
+
+* 源码解压后是类似这样的文件夹：`AX88772C_772B_772A_760_772_178_LINUX_DRIVER_v4.17.0_Source`
+
+* 根据文件夹里README文件来编译就可以了，基本上就是 `make && make install`
+
+* 如果编译碰到类型datetime的报警，就需要修改下makefile里的`EXTRA_CFLAGS`，给它加个`no-error`选项，如这样：`EXTRA_CFLAGS = -DEXPORT_SYMTAB -Wno-error=date-time`
+
+* 编译、安装完成后，还需要按照README里写的启动一下这个驱动模块：`modprobe asix`
 
 网卡启动后，系统会在eth0后面多出个eth1，设置下IP，比如：`192.168.0.10 （子网掩码 255.255.255.0  网关 192.168.0.1）`
 
