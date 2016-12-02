@@ -1,8 +1,8 @@
 # Site settings
-title: 日常折腾记录
+title: EchoMa的折腾记录
 email: fatmck@163.com
 description: >
-  工作生活过程中跟开发、Linux相关的一些折腾记录.
+  记录工作过程中跟开发相关的一些折腾.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://echoma.github.io"
 github_username:  echoma
