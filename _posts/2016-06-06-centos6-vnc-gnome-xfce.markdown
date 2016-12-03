@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "在CentOS6上使用VNC远程桌面（GNome2/XFCE4）"
+title:  "通过VNC连接在CentOS6的远程桌面（GNome2/XFCE4）"
 date:   2016-06-06 20:28:21 +0800
 categories: linux network 折腾
 ---
@@ -15,7 +15,7 @@ categories: linux network 折腾
 
 * 开发机的系统都是没有安装桌面环境的，要自己动手装
 
-那么问题来了，怎么如果配置远程桌面，让我的Ubuntu远程做开发呢。
+那么问题来了，怎么如果配置远程桌面，让我的Ubuntu远程连到服务器上做开发呢。
 
 ## 解决思路
 
@@ -27,7 +27,7 @@ categories: linux network 折腾
 
 3. 在本地机（我这里是Ubuntu16.04)上使用VNC客户端登陆到远端。
 
-## 实施步骤一：在远端机上（我这里是CentOS6)上安装桌面环境。
+## 实施步骤一：在远端机上上安装桌面环境。
 
 #### 1.安装桌面环境软件
 
@@ -72,9 +72,9 @@ useradd xxx
 passwd xxx
 ```
 
-#### 3.配置用户可以使用vnc
+#### 4.配置用户可以使用vnc
 
-**a.** 使用root修改vnc配置文件，为新用户增加vnc配置：`vi /etc/sysconfig/vncservers`
+  **a.** 使用root修改vnc配置文件，为新用户增加vnc配置：`vi /etc/sysconfig/vncservers`
 
 示例配置：
 
@@ -86,14 +86,14 @@ VNCSERVERARGS[2]="-geometry 1900x1050"
 
 上面的`xxx`就是上一步创建的用户，`1024x768`就是分辨率。
 
-**b.** 接上一步，执行以下命令可以切换到新用户并创建vnc密码：
+  **b.** 接上一步，执行以下命令可以切换到新用户并创建vnc密码：
 
 ```bash
 su - xxx    #切到xxx用户
 vncpasswd   #设置vnc登录密码
 ```
 
-**c.** 然后切回root，重启vnc服务，检查过程中是否有任何报错，这个过程vnc服务也会在该xxx用户名下创建初始化脚本(`/home/xxx/.vnc/xstartup`)：
+  **c.** 然后切回root，重启vnc服务，检查过程中是否有任何报错，这个过程vnc服务也会在该xxx用户名下创建初始化脚本(`/home/xxx/.vnc/xstartup`)：
 
 执行以下命令：
 ```bash
@@ -109,7 +109,7 @@ service vncserver start
 172.18.8.120 gitlab.futunn.com
 ```
 
-**d.** 修改用户的xstartup文件，确保桌面环境使用了gnome（而不是默认的twm)
+  **d.** 修改用户的xstartup文件，确保桌面环境使用了gnome（而不是默认的twm)
 
 通常默认的xstartup是这样的：
 
