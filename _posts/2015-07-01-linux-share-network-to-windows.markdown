@@ -2,7 +2,6 @@
 layout: post
 title:  "Linux主机共享网络给Windows系统上网"
 date:   2015-07-01 20:28:21 +0800
-categories: linux network 折腾
 ---
 
 ## 需求背景

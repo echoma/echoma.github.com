@@ -1,8 +1,9 @@
 # Site settings
-title: EchoMa的折腾记录
+title: 各种瞎折腾
 email: fatmck@163.com
 description: >
-  记录工作过程中跟开发相关的一些折腾.
+  记录工作过程中跟开发相关的一些折腾。
+  进击的富途牛牛 www.futu5.com
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://echoma.github.io"
 github_username:  echoma

@@ -2,7 +2,6 @@
 layout: post
 title:  "通过VNC连接在CentOS6的远程桌面（GNome2/XFCE4）"
 date:   2016-06-06 20:28:21 +0800
-categories: linux network 折腾
 ---
 
 ## 需求背景
@@ -155,7 +154,7 @@ twm &
 
 #### 常见的linux平台的vnc客户端使用方法
 
-**a.** 最简易的客户端`gvncviewer`
+  **a.** 最简易的客户端`gvncviewer`
 
 使用如下命令：`gvncviewer 192.169.1.20:2`
 
@@ -165,11 +164,11 @@ twm &
 
 简易在vncviewer的菜单里选择全屏(full screen)，并去掉拉伸显示(scaled display)
 
-**b.** 最好用的客户端`krdc`
+  **b.** 最好用的客户端`krdc`
 
 这是kde桌面套件里的一员，kde套件向来是功能最强工作最稳定的。该客户端支持vnc和rdp，可以同步剪切板，可以管理连接，工作非常稳定。
 
-**c.** 还不错的客户端`remmina`
+  **c.** 还不错的客户端`remmina`
 
 remmina在启动后会在右下角有个系统托盘。功能类似krdc。但是剪切板不太稳定，偶尔还会卡死。
 
@@ -177,11 +176,11 @@ remmina在启动后会在右下角有个系统托盘。功能类似krdc。但是
 
 #### 必读：使用中的问题解决
 
-**a.** 总是弹出一个对话框要求输入root密码，写着类似`Authentication is required to set the network proxy used for downloading packages`的文字。解决方法如下：使用root编辑`/etc/xdg/autostart/gpk-update-icon.desktop`文件，然后在末尾增加一行：`X-GNOME-Autostart-enabled=false`
+  **a.** 总是弹出一个对话框要求输入root密码，写着类似`Authentication is required to set the network proxy used for downloading packages`的文字。解决方法如下：使用root编辑`/etc/xdg/autostart/gpk-update-icon.desktop`文件，然后在末尾增加一行：`X-GNOME-Autostart-enabled=false`
 
-**b.** 将某个用户的默认语言切换为中文：`vim ~/.vnc/xstartup`，将`export LANG`替换为`export LANG=“zh_CN.UTF-8”`，然后退出并重新登录就切换为中文环境了。
+  **b.** 将某个用户的默认语言切换为中文：`vim ~/.vnc/xstartup`，将`export LANG`替换为`export LANG=“zh_CN.UTF-8”`，然后退出并重新登录就切换为中文环境了。
 
-**c.** 总是会有个vncconfig的小窗口，将上面提到的xstartup脚本里的`vncconfig -iconic &`替换为`vncconfig -nowin &`就可以了
+  **c.** 总是会有个vncconfig的小窗口，将上面提到的xstartup脚本里的`vncconfig -iconic &`替换为`vncconfig -nowin &`就可以了
 
 ## 使用XFCE4
 
