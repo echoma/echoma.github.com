@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "通过VNC连接在CentOS6的远程桌面（GNome2/XFCE4）"
+title:  "通过VNC连接在CentOS6的远程桌面"
 date:   2016-06-06 20:28:21 +0800
 ---
 
