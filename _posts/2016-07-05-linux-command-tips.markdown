@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "积累的linux命令号小tips"
+title:  "积累的linux命令行小tips"
 date:   2016-07-05 20:28:21 +0800
 ---
 
@@ -159,6 +159,8 @@ INET_NTOA
 dd if=/dev/zero of=/data/swap/swap.20G bs=1024 count=20971520
 
 ## iptables做本机端口转发
+
+连接13357端口就像连在了3306上一样：
 
 `iptables -t nat -A PREROUTING -p tcp --dport 13357 -j REDIRECT --to-ports 3306`
 
