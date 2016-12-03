@@ -19,7 +19,9 @@ sudo gedit /etc/gnome/defaults.list
 ## 修改主机名称
 
 1.执行：hostname oratest 
+
 2.修改/etc/sysconfig/network中的hostname 
+
 3.修改/etc/hosts文件 
 
 ## 修改IP配置
