@@ -4,28 +4,6 @@ title:  "常年使用linux桌面积累的小tips"
 date:   2015-06-14 20:28:21 +0800
 ---
 
-## 装机软件参考
-
-guake, byobu, (sakura)，putty, tomboy or basket_note_pad, alarm-clock), tortoise-hg
-
-sourcegear的DiffMerge目前免費
-
-thunderbird‘s addon Firetray( 系统托盘).
-
-thunderbird echo@futu.cn config:
-
-    IMAP: imap.exmail.qq.com:143
-
-    SMTP: smtp.exmail.qq.com:25 user:echo@futu.cn connection-safe:none, authorize:password,not-safe.
-
-fonts: bitstream vera
- 
-firewall off: sudo ufw disable
-
-alt+f2: 添加启动项gome-session-properties seahorse
-
-Unix cool tools : http://kkovacs.eu/cool-but-obscure-unix-tools
-
 ## 修改ubuntu的默认文本编辑器
 
 sudo gedit /etc/gnome/defaults.list
