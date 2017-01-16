@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "《effective python》笔记"
-date:   2016-07-05 20:28:21 +0800
+date:   2017-01-16 20:28:21 +0800
 ---
 
 ## pythonic方式
