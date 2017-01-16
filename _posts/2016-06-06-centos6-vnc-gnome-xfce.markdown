@@ -28,7 +28,7 @@ date:   2016-06-06 20:28:21 +0800
 
 ## 实施步骤一：在远端机上上安装桌面环境。
 
-#### 1.安装桌面环境软件
+#### 1. 安装桌面环境软件
 
 折腾的过程中发现，如果要想使用XFCE桌面环境，必须也得把GNome桌面环境装好。
 
@@ -38,7 +38,7 @@ date:   2016-06-06 20:28:21 +0800
 
 我们的开发机默认是命令行多用户模式启动，我们需要切换到X11图形模式，使用root执行`vi /etc/inittab`，将里面的`id:3:initdefault:`替换为`id:5:initdefault:`
 
-#### 3.重启机器，检察GNome是否正常启动
+#### 3. 重启机器，检察GNome是否正常启动
 
 用root执行reboot命令进行重启，重启后使用ps命令看GNome的相关进程是否存在：`ps afxu | grep gnome`
 
@@ -60,7 +60,7 @@ gnome-volume-control-applet
 
 使用root执行：`chkconfig vncserver on`
 
-#### 3.创建用户
+#### 3. 创建用户
 
 假如你打算就用现有的账户登录桌面，那就可以跳过这步了。
 
@@ -71,7 +71,7 @@ useradd xxx
 passwd xxx
 ```
 
-#### 4.配置用户可以使用vnc
+#### 4. 配置用户可以使用vnc
 
   **a.** 使用root修改vnc配置文件，为新用户增加vnc配置：`vi /etc/sysconfig/vncservers`
 
@@ -152,7 +152,7 @@ twm &
 
 假设我们的远端机器的IP是192.169.1.20
 
-#### 常见的linux平台的vnc客户端使用方法
+#### 1. 常见的linux平台的vnc客户端使用方法
 
   **a.** 最简易的客户端`gvncviewer`
 
@@ -174,7 +174,7 @@ remmina在启动后会在右下角有个系统托盘。功能类似krdc。但是
 
 可以使用`remmina -i &`来启动remmina的系统托盘。
 
-#### 必读：使用中的问题解决
+#### 2. 必读：使用中的问题解决
 
   **a.** 总是弹出一个对话框要求输入root密码，写着类似`Authentication is required to set the network proxy used for downloading packages`的文字。解决方法如下：使用root编辑`/etc/xdg/autostart/gpk-update-icon.desktop`文件，然后在末尾增加一行：`X-GNOME-Autostart-enabled=false`
 
@@ -187,7 +187,7 @@ remmina在启动后会在右下角有个系统托盘。功能类似krdc。但是
 1. 在安装了gnome的前提下，安装xfce软件包：`yum groupinstall xfce`
 
 2. 将某个用户的登录环境切换为xfce，`vim ~/.vnc/xstartup`，做如下修改：
-	a. 将`exec gnome-session`替换为`startxfce4 &`
+   a. 将`exec gnome-session`替换为`startxfce4 &`
     b. 将带有xinitrc的代码行注释掉：
 
 ```bash
@@ -208,9 +208,23 @@ remmina在启动后会在右下角有个系统托盘。功能类似krdc。但是
 ```
 4. ctrl+F2键跟eclipse快捷键冲突：ctrl+F2是旧版xfce4里切换到第二个工作区的快捷键，eclipse里是停止调试的快捷键，冲突了。同样也是修改快捷键文件（如上一条），搜索`workspace`，将类似`<property name="&lt;Control&gt;F4" type="string" value="workspace_4_key"/>`的行注释掉就可以了，从F1到F11共有11行。
 
+## 单独启动或关闭某个用户的vnc服务
+
+假设我们配置了以下vnc用户：
+
+```ini
+VNCSERVERS="2:quanta"
+```
+
+我们可以通过以下命令启动和关闭以下进程：
+
+```bash
+vncserver :2
+vncserver -kill :2
+```
 ## 图形性能
 
-#### 抗锯齿和点阵字体
+#### 1. 抗锯齿和点阵字体
 
 为了提高图形性能，减少对远程机器的CPU和内存占用，我们会选择关闭抗锯齿【系统设置->外观(Apperance)中关闭】，但这会导致矢量字体出现大量锯齿，因此我们会选用点阵字体。
 
