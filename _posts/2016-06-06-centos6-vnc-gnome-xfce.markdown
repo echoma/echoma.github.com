@@ -222,6 +222,8 @@ VNCSERVERS="2:quanta"
 vncserver :2
 vncserver -kill :2
 ```
+
+
 ## 图形性能
 
 #### 1. 抗锯齿和点阵字体
