@@ -6,6 +6,8 @@ date:   2017-01-16 20:28:21 +0800
 
 ## pythonic方式
 
+> 一门语言的编程习惯是由用户确立的，python开发者用pythonic来描述符合特定风格的代码。
+
 #### 1. python版本
 
 * python2功能开发已经冻结，只做bug修复、安全增强和移植等工作。
@@ -46,7 +48,8 @@ date:   2017-01-16 20:28:21 +0800
 
 #### 7. 用列表推导来取代map和filter
 
-* 就是介绍了下列表推导，PEP8里已经有这条了，用pylint就会提示map和filter已经不建议使用了。
+* 就是介绍了下列表推导。
+* echo注：用pylint就会提示map和filter已经不建议使用了。
 
 #### 8. 不要使用含有两个以上表达式的列表推导
 
@@ -121,3 +124,29 @@ print(next(roots))
 ```
 
 * 生成器表达式的问题是，迭代器是有状态的，用过一轮就不能反复使用了。
+
+#### 10. 尽量用enumerate取代range
+
+* 在遍历列表时，如果要知道元素的索引，通常会使用range：
+
+```python
+for i in range(len(item_list)):
+    item = item_list[i]
+    print('%d: %s' % (i + 1, item))
+# 这种代码有些生硬，不易理解
+```
+
+* 使用内置的enumerate函数，解决此问题：
+
+```python
+for i, item in enumerate(item_list):
+    print('%d: %s' % (i + 1, item))
+```
+
+* enumerate函数还可以指定开始计数时使用的值：
+
+```python
+for i, item in enumerate(item_list, 1):
+    print('%d: %s' % (i, item))
+# 本例从1开始计数，代码更简短
+```
