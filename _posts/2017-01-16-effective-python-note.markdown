@@ -150,3 +150,31 @@ for i, item in enumerate(item_list, 1):
     print('%d: %s' % (i, item))
 # 本例从1开始计数，代码更简短
 ```
+
+#### 11. 用zip函数同时遍历两个迭代器
+
+* 内置的zip函数可以将多个迭代器封装为生成器，以便稍后求值。例如：
+
+```python
+for name,info in zip(names, infos):
+    print('%s: %s' % (name, info))
+```
+
+* 注意，python2的zip不是生成器，而是遍历列表后直接生成所有元素组合成的列表，这可能会占用较大内存。
+
+* zip函数遍历时，如果多个迭代器长度不等，zip函数以短的那个为准。
+
+#### 12. 不要在for和while循环后面写else块
+
+* python提供了其他语言都不支持的特性：
+
+```python
+for i in range(3):
+    print('%d' % i)
+else:
+    print('else block')
+```
+
+* 通常程序员会理解为：如果循环没有正常执行完，就执行else块。但实际刚好相反，如果循环里使用break提前跳出，就不执行else块。换句话说，如果循环正常执行完毕，才执行else块。
+
+* 这种语法不值管，容易让人误解，不要使用。
