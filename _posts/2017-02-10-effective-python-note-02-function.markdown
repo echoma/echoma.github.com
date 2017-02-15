@@ -46,3 +46,53 @@ def find_name(key, name_list):
     name_list.sort(key=helper)
     return found
 ```
+* 不幸的是，python2不支持nonlocal关键字，可以使用可变值（如包含某个元素的列表）来实现类似机制：
+
+```python
+def find_name(key, name_list):
+    found = [False] # 列表本身是可修改的(mutable)
+    def helper(x):
+        if x in name_list:
+            found[0] = True
+            return  (0, x)
+        return (1, x)
+    name_list.sort(key=helper)
+    return found
+```
+
+* echo：我觉得python2里这种代码让阅读者会觉得挺莫名其妙。
+
+#### 16. 考虑用生成器改写返回列表的函数
+
+* 如下函数将返回给定字符串中每个单词的起始索引：
+
+```python
+def index_words(text):
+    result = []
+    if test:
+        result.append(0)
+    for index, letter in enumerate(text):
+        if letter == ' ':
+            result.append(index + 1)
+    return result
+```
+
+* 返回函数的列表可能会有两个问题：
+    1. 函数内部要维护一个局部列表变量，随着append操作的次数增多，会占用大量内存。
+    2. 函数要不停的append，最后返回列表，代码会相对使用生成器啰嗦。（echo：我觉得还好）
+
+* 用生成器代码改写：
+
+```python
+def index_words_iter(text):
+    if test:
+        yield 0
+    for index, letter in enumerate(text):
+        if letter == ' ':
+            yield index + 1
+
+# 调用方法：
+result = list(index_words_iter(address))
+```
+
+* echo：跟第9条类似，生成器可以减少内存占用。
