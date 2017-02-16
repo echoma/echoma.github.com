@@ -62,7 +62,7 @@ def find_name(key, name_list):
 
 * echo：我觉得python2里这种代码让阅读者会觉得挺莫名其妙。
 
-#### 16. 考虑用生成器改写返回列表的函数
+## 16. 考虑用生成器改写返回列表的函数
 
 * 如下函数将返回给定字符串中每个单词的起始索引：
 
@@ -96,3 +96,30 @@ result = list(index_words_iter(address))
 ```
 
 * echo：跟第9条类似，生成器可以减少内存占用。
+
+## 17. 在参数上迭代时，要多加小心
+
+* 假设我们写了如下函数，该函数接会把输入的数值加总，然后给出每个数字占的百分比：
+
+```python
+def foo(numbers):
+    total = sum(numbers)
+    for value in numbers:
+        percent = 100 * value / total
+        result.append(percent)
+    return result
+```
+
+* 给上面的函数传入一个列表，是可以得到正确结果的。但如果给上面函数传入一个迭代器只能得到空的结果。因为迭代器只能遍历一次，而函数遍历了两次`numbers`参数（一次求和，一次for循环）。进行第二遍迭代也不会抛出任何异常，因为for循环认为迭代过程中出现迭代到终点的很正常的。
+
+* 改造思路一：我们可以使用`list(numbers)`拷贝一份列表，在列表上进行求和、for循环，但这可能会导致大的内存占用。
+
+* 改造思路二：也可以改变foo函数参数，传入一个生成器函数，我们通过生成器获得两个迭代器对象，一个用于求和，一个用于for循环。
+
+* 改造思路三：也可以限制用户输入的`numbers`参数必须是容器，而不能是迭代器：
+
+```python
+# iter函数有如下约定：如果把迭代器对象传给iter函数，则返回该迭代器；如果传入容器，则生成一个新的迭代器并返回。
+if iter(numbers) is iter(numbers):
+    raise TypeError('Must supply a container')
+```
