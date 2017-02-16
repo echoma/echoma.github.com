@@ -119,7 +119,9 @@ def foo(numbers):
 * 改造思路三：也可以限制用户输入的`numbers`参数必须是容器，而不能是迭代器：
 
 ```python
-# iter函数有如下约定：如果把迭代器对象传给iter函数，则返回该迭代器；如果传入容器，则生成一个新的迭代器并返回。
+# iter函数有如下约定：
+#    如果把迭代器对象传给iter函数，则返回该迭代器；
+#    如果传入容器，则生成一个新的迭代器并返回。
 if iter(numbers) is iter(numbers):
     raise TypeError('Must supply a container')
 ```
