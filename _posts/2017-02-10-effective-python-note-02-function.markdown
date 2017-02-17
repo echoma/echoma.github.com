@@ -167,7 +167,8 @@ log('My numbers are', *it)
 * 考虑如下函数，它的最后两个参数可以指定忽略ZeroDivisionError和OverflowError错误：
 
 ```python
-def safe_division(number, divisor, ignore_overflow, ignore_zero_division):
+def safe_division(number, divisor, ignore_overflow, 
+                  ignore_zero_division):
     pass
 ```
 
@@ -181,7 +182,8 @@ safe_division(a, b, False, True)
 * 函数改用可选参数，调用者使用关键字形式来调用，代码会更加清晰，调用意图更明确：
 
 ```python
-def safe_division(number, divisor, ignore_overflow=False, ignore_zero_division=False):
+def safe_division(number, divisor, ignore_overflow=False, 
+                  ignore_zero_division=False):
     pass
 
 # 调用
@@ -209,7 +211,8 @@ def log(message, when=datetime.now()):
 * 为了保证调用者必须已关键字形式给出可选参数，我们可以在参数列表里加入`*`号，表示位置参数在此结束，之后的参数只能以关键字形式指定：
 
 ```python
-def safe_division(number, divisor, * ignore_overflow=False, ignore_zero_division=False):
+def safe_division(number, divisor, * ignore_overflow=False, 
+                  ignore_zero_division=False):
     pass
 
 # 调用时使用位置参数指定后两个参数会导致异常
