@@ -200,11 +200,27 @@ safe_division(a, b, ignore_zero_division=True)
 ```python
 def log(message, when=datetime.now()):
     print('%s: %s' % (when, message))
+
+# 调用两次
+log('a')
+log('b')
 ```
 
 * 上面的函数连续调用两次输出的时间是一样的，因为参数when只会被初始化一次（模块被加载是求出）。
 
-* 如果向实现动态默认值，习惯上是把默认值设为None，并在文档字符串(docstring)中把None所对应的行为描述出来。
+* 如果向实现动态默认值，习惯上是把默认值设为None，并在文档字符串(docstring)中把None所对应的行为描述出来：
+
+```python
+def log(message, when=None)
+    """
+    Args:
+        when: date time of when the message occurred.
+            Defaults to the present time.
+    """
+    pass
+```
+
+* 如果可选参数的默认值是`{}`或`[]`等动态值，多次调用时其实会共享同一个字典或列表对象，导致奇怪的行为。这种情况同样遵循上面的规则，使用None来做默认值。
 
 ## 21. 用只能以关键字形式指定的参数来确保代码清晰
 
