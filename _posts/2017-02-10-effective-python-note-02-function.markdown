@@ -125,3 +125,105 @@ def foo(numbers):
 if iter(numbers) is iter(numbers):
     raise TypeError('Must supply a container')
 ```
+
+## 18. 用数量可变的未知参数减少视觉杂讯
+
+* 星号参数(`*args`或`star args`)，能够使代码更加清晰，减少视觉上的干扰。考虑如下函数：
+
+```python
+def log(message, values)
+    if not values:
+        print(message)
+    else:
+        values_str = ', '.join(str(x) for x in values)
+        print('%s: %s' % (message, values_str))
+
+log('My numbers are', [1, 2])
+log('My numbers are', [])
+```
+
+* 可以用星号参数改写如下
+
+```python
+def log(message, *values) # values前面加个*
+    if not values:
+        print(message)
+    else:
+        values_str = ', '.join(str(x) for x in values)
+        print('%s: %s' % (message, values_str))
+
+log('My numbers are', 1, 2) # 调用者就像传输普通位置参数一样随便传多少个
+
+# 也可以传入生成器
+def my_generator():
+    for i in range(10):
+        yield i
+it = my_generator()
+log('My numbers are', *it)
+```
+
+## 19. 用关键字参数来表达可选的行为
+
+* 考虑如下函数，它的最后两个参数可以指定忽略ZeroDivisionError和OverflowError错误：
+
+```python
+def safe_division(number, divisor, ignore_overflow, ignore_zero_division):
+    pass
+```
+
+* 调用者有时只想忽略ZeroDivisionError，有时只想忽略OverflowError，就会写出这样的代码：
+
+```python
+safe_division(a, b, True, False)
+safe_division(a, b, False, True)
+```
+
+* 函数改用可选参数，调用者使用关键字形式来调用，代码会更加清晰，调用意图更明确：
+
+```python
+def safe_division(number, divisor, ignore_overflow=False, ignore_zero_division=False):
+    pass
+
+# 调用
+safe_division(a, b, ignore_overflow=True)
+safe_division(a, b, ignore_zero_division=True)
+```
+
+* 对于可选的关键字参数，应当总是以关键字形式来指定，不应以位置参数的形式指定。这样代码更清晰。
+
+## 20. 用None和文档字符串来描述具有动态默认值的参数
+
+* 考虑如下函数：
+
+```python
+def log(message, when=datetime.now()):
+    print('%s: %s' % (when, message))
+```
+
+* 上面的函数连续调用两次输出的时间是一样的，因为参数when只会被初始化一次（模块被加载是求出）。
+
+* 如果向实现动态默认值，习惯上是把默认值设为None，并在文档字符串(docstring)中把None所对应的行为描述出来。
+
+## 21. 用只能以关键字形式指定的参数来确保代码清晰
+
+* 为了保证调用者必须已关键字形式给出可选参数，我们可以在参数列表里加入`*`号，表示位置参数在此结束，之后的参数只能以关键字形式指定：
+
+```python
+def safe_division(number, divisor, * ignore_overflow=False, ignore_zero_division=False):
+    pass
+
+# 调用时使用位置参数指定后两个参数会导致异常
+safe_division(a, b, True False)
+>>>
+TypeError: safe_division() takes 2 positional arguments but 4 where given
+```
+
+* 不幸的是，python2不支持这个语法，但我们可以用`**args`来模拟。`**args`可接收任意个数的参数，我们通过`pop`掉我们需要的参数后，如果`**args`还不为空则表示客户没有传入指定的关键字：
+
+```python
+def safe_division(number, divisor, **kwargs):
+    ignore_overflow = kwargs.pop('ignore_overflow', False)
+    ignore_zero_div = kwargs.pop('ignore_zero_division', False)
+    if kwargs:
+        rase TypeError('Unexpected **kwargs: %r' % kwargs)
+```
