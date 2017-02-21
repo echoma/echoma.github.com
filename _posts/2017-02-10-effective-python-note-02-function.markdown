@@ -142,7 +142,7 @@ log('My numbers are', [1, 2])
 log('My numbers are', [])
 ```
 
-* 可以用星号参数改写如下
+* 可以用星号参数改写如下：
 
 ```python
 def log(message, *values) # values前面加个*
