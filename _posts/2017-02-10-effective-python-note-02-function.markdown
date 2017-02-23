@@ -227,7 +227,7 @@ def log(message, when=None)
 * 为了保证调用者必须已关键字形式给出可选参数，我们可以在参数列表里加入`*`号，表示位置参数在此结束，之后的参数只能以关键字形式指定：
 
 ```python
-def safe_division(number, divisor, * ignore_overflow=False, 
+def safe_division(number, divisor, *, ignore_overflow=False, 
                   ignore_zero_division=False):
     pass
 
