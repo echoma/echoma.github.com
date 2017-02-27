@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "《effective python》笔记 第3章 类与继承"
+title:  "《effective python》笔记 第4章 元类及属性"
 date:   2017-02-27 19:34:21 +0800
 ---
 
