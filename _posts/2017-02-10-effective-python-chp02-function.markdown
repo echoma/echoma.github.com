@@ -69,7 +69,7 @@ def find_name(key, name_list):
 ```python
 def index_words(text):
     result = []
-    if test:
+    if text:
         result.append(0)
     for index, letter in enumerate(text):
         if letter == ' ':
@@ -85,7 +85,7 @@ def index_words(text):
 
 ```python
 def index_words_iter(text):
-    if test:
+    if text:
         yield 0
     for index, letter in enumerate(text):
         if letter == ' ':
