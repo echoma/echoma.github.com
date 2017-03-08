@@ -63,3 +63,29 @@ def second_coroutine():
 ```
 
 * python2的生成器还不支持`return`返回值，如果要向外传输数据，通常需要抛出异常，通过异常捕获获得数据。
+
+## 41. 考虑用concurrent.futures来实现真正的平行计算
+
+* Python的GIL导致无法用多线程实现真正的多核并行。而自己编写多进程并行程序需要考虑很多复杂的因素。
+* 使用Python内置的concurrent.futures模块可以快速的实现常用的多工作子进程模式的需求，子进程可以接收主进程发来的指令，并将计算结果返回给主进程。
+
+```python
+# 假设下面的函数根据输入的数字进行大量的计算，最终返回一个结果数字
+def calculate(number):
+    pass
+    return result
+# 有多个数字需要使用calculate函数进行计算
+numbers = [1,2,3,4,5,6,7,8]
+
+# 创建进程池
+pool = ProcessPoolExecutor(max_workers=4)
+# 将使用4个工作进城分别进行计算
+result = list(pool.map(calculate, numbers))
+```
+
+* ProcessPoolExecutor由内置的multiprocess模块提供底层的进程间通信机制，首先将请求序列化，然后通过socket传给子进程，再由子进程反序列化并计算的得到结果，然后将结果序列化回传给主进程。
+
+* multiprocess模块提供了很多高级功能，但使用比较复杂，开发者还是尽量使用ProcessPoolExecutor。
+
+
+
