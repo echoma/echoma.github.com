@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "《effective modern c++》笔记 第2章 auto"
-date:   2017-03-209 13:45:21 +0800
+date:   2017-03-09 13:45:21 +0800
 ---
 
 # 第二章
