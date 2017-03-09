@@ -337,4 +337,4 @@ cout << typeid(x).name() << endl;
 
 * typeid给出的类型信息不可靠，可能会忽略引用、const信息。IDE有时也无法给出可靠的类型。
 
-* `Boost::TypeIndex`可以产生正确的类型信息。
+* `Boost::TypeIndex`可以产生正确的类型信息。(echo：不喜欢boost，太重)
