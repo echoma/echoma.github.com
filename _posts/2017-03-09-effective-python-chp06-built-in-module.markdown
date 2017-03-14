@@ -110,7 +110,7 @@ stats['my_counter'] += 1
 
 heapq模块提供了堆操作函数可以在标准的list对象上创建堆结构。
 
-···python
+```python
 a = []
 heappush(a, 5)
 heappush(a, 3)
@@ -118,7 +118,7 @@ heappush(a, 7)
 heappush(a, 4)
 
 # a[0]是3，数字越小表示优先级越高。
-···
+```
 
 5. 二分查找 bisect.bisect_left
 
