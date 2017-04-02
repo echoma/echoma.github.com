@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "《effective modern c++》笔记 第3章 迈入现代C++"
-date:   2017-03-09 13:45:21 +0800
+date:   2017-03-30 13:45:21 +0800
 ---
 
 * 目录
