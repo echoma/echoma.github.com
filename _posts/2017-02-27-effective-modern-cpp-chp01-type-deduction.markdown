@@ -216,7 +216,9 @@ auto x2 = {27};
 auto x3{27}; 
 ```
 
-> 根据C++17草案[N3922](http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3922.html)，x3的类型会被推导为int，而不是`std::initializer_list<int>`，各编译器(2017年3月)目前会有不同的表现。
+> 重要提示：根据C++17草案[N3922](http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2014/n3922.html)，当{}内只有一个元素时，比如上面的x3，其类型会被推导为int，而不是`std::initializer_list<int>`，各编译器(2017年3月)目前会有不同的表现。关于这点，在第7条会有更多阐述。
+>
+> echo：我在`ubuntu16.04`上使用`g++5.4.0`用`--std=c++11`选项编译时，已经是遵循N3922草案推导为int了。而在`CentOS6`上使用`g++4.4.7`用`--std=c++0x`选项编译时，还是推导为`std::initializer_list<int>`。
 
 * 上面的规则是auto推导的特殊规则，并不适用于函数模板的推导：
 
