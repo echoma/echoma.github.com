@@ -4,6 +4,9 @@ title:  "《effective python》笔记 第6章 内置模块"
 date:   2017-03-09 13:13:21 +0800
 ---
 
+* 目录
+{:toc}
+
 > Python内置了很多有用的程序包。某些程序包跟Python的习惯用法紧密接合，实际上已经成了语言规范的一部分。
 
 ## 42. 用functools.wraps定义函数修饰器

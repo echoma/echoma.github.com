@@ -4,6 +4,9 @@ title:  "《effective python》笔记 第1章 用pythonic方式思考"
 date:   2017-01-16 20:28:21 +0800
 ---
 
+* 目录
+{:toc}
+
 > pythonic：一门语言的编程习惯是由用户确立的，python开发者用pythonic来描述符合特定风格的代码。
 >
 > 本章主要是讲解如何使用python特有的方式来书写直观、简洁、易读的代码。

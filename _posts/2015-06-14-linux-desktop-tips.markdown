@@ -4,6 +4,9 @@ title:  "常年使用linux桌面积累的小tips"
 date:   2015-06-14 20:28:21 +0800
 ---
 
+* 目录
+{:toc}
+
 ## 修改ubuntu的默认文本编辑器
 
 sudo gedit /etc/gnome/defaults.list

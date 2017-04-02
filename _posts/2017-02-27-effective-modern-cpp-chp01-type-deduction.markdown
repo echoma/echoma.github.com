@@ -4,6 +4,9 @@ title:  "《effective modern c++》笔记 导读+第1章 类型推导"
 date:   2017-02-27 13:06:21 +0800
 ---
 
+* 目录
+{:toc}
+
 > echo: 本书是作者继<effective c++>和<more effective c++>之后的又一力作，着重c++11和c++14标准中新增的大量特性。 本书目前只有台湾繁体中文版(淘宝有售，有些术语叫法跟大陆不太一样)，网上也有在线的[简体中文翻译](http://www.kancloud.cn/kangdandan/book/169966)。
 
 # 全书导读
