@@ -67,7 +67,7 @@ date:   2017-03-30 13:45:21 +0800
 * 通过上面的阐述我们发现，使用`{}`形式好处多多。那为什么本节的标题不直接叫做`优先使用{}初始化语法`呢？因为有几个特殊情况：
 
   * `{}`会被编译器优先推导为`std::initializer_list`类型，如果我们使用`auto`关键字声明对象，那对象的类型会被推导为`std::initializer_list`类型。这一点我们在第2条有说过，我们还提到了草案N3922。因此，在使用`auto`声明变量时，不建议使用`{}`形式初始化。
-  
+
   * 如果某个类，支持`std::initializer_list`参数的构造函数，那在使用`{}`形式初始化该类的对象时，编译器优先使用`std::initializer_list`参数的构造函数。
 
 * echo：关于上面说到的草案N3922，这里做进一步阐述。该草案对类型推导在使用`大括号初始化列表` 时的推到规则做了更改：
@@ -97,4 +97,97 @@ date:   2017-03-30 13:45:21 +0800
 
   f(0); // 会调用f(int)，而不是f(void*)
   f(NULL); // 通常会调用f(int)，不会调用f(void*)。有些编译器可能无法编译。
+  ```
+
+## 9. 尽量用别名声明取代typedef
+
+* C++11提供了`别名声明(alias declaration)`，之前`typedef`的功能可以这样改写：
+
+```c++
+typedef void (*FP)(int, const std::string&); // typedef
+using FP = void (*)(int, const std::string&); // 别名声明
+```
+
+* 上面例子并不能看到别名声明比typedef好在哪里。别名声明的优点是：它声明的类型是支持模板的（别名模板）。有过设计大量模板经验的开发者都曾经历的痛苦过程就是：通过一个模板内部的typedef定义，来定义另一个模板的内部定义，这类template metaprogramming的代码是较晦涩的(echo：后台ut库的大量模板代码就有大量的这种场景)。使用`别名声明`，代码会清晰很多：
+
+```c++
+// 以下例子首先定义了一个使用自定义allocator的链表，然后再定义一个Widget类使用这个链表。
+
+// 首先看下typedef的写法
+template<typename T>
+struct MyAllocList {
+  typedef std::list<T, MyAlloc<T>> type;
+};
+template<typename T>
+class Widget {
+private:
+  typename MyAllocList<T>::type list; // 定义成员，使用了这个链表类型
+};
+
+// 再看下使用别名声明的代码
+template<typename T>
+using MyAllocList = std::list<T, MyAlloc<T>>;
+template<typename T>
+class Widget {
+private:
+  MyAllocList<T> list; // 不需要使用typenmae和::type
+};
+```
+
+* c++14开始，标准库中也开始大量使用别名样板了。（标准委员会太晚认识到别名样板的好处，所以c++11中还没有大量使用）。
+
+## 10. 尽量使用scoped enum，而非unscoped enum
+
+* 开发者们都意识到enum中列举项(枚举子,enumerator)的名称的作用范围很大，在enum可见范围内是不能出现其他相同名称的东西的(变量、函数都不行)：
+
+```c++
+enum Color { black, white, red };
+auto white = false; // 编译错误，white已经声明过了
+void red() { } // 编译错误，red已经声明过了
+```
+
+* 这其实是命名空间的命名污染问题。在定义枚举类型时，这个问题就迫使我们要给枚举项取一个不会跟整个命名空间内其他变量、函数冲突的名字。而使用`scoped enum`可以完美解决这个问题：
+
+```c++
+enum class Color { black, white, red}; // 枚举类！这其实是一个类。
+auto white = false; // 编译成功！
+void red() { } // 编译成功！
+Color c = Color::black; // scoped enum必须使用Color::指明枚举类型
+```
+
+* `scoped enum`还有其他几方面的好处：
+
+  * 强类型。由于`scoped enum`的表现更像是类，不能用整数等数字类型直接赋值，不能用不同枚举类型的值互相赋值，不能用枚举类型跟数字进行比较。这使得我们的代码安全了很多。如果实在要跟数字进行赋值和比较，必须在代码中显式的使用`static_cast<>`语句：
+
+  ```c++
+  enum class Color {black, white, red};
+  Color a = 1; // 编译错误，不能用数字初始化或赋值
+  auto c = Color::black;
+  c = static_cast<Color>(5); // 可以使用static_cast来用数字赋值
+  if (static_cast<int>(c)>1.2) // 使用static_cast来作比较
+    cout << "Bigger" << endl;
+  ```
+
+  * 可以前向声明(forward-declaration)。
+
+  ```c++
+  enum class Status; // 前向声明
+  void someFunc(Status s); // 编译成功
+  ```
+
+    > 这使得我们的代码可以减少对头文件的依赖程度。在无法做前向声明时，假设A.h定义了枚举，B.h里的某函数声明的参数使用了该枚举，C.h使用了B.h里的其他函数，则当枚举的定义发生变化时，包含了A.h/B.h/C.h的所有代码都需要重新编译。如果有了前向声明，B.h就不需要包含A.h了，只需要自己前向声明就可以了，当枚举的定义发生变化时，只有包含了A.h的源代码文件需要重新编译。
+
+* C++11中我们可以指定枚举类型在底层使用的存储空间。默认是int。指定方法如下：
+
+  ```c++
+  enum class Status; // scoped enum 的前向声明
+  enum class Status : std::uint32_t; // 指定底层类型的前向声明
+  enum class Status : std::uint32_t {
+    good, failed, incomplete, autidted
+  };
+  enum Color; // unscoped enum 的前向声明
+  enum Color : std::uint8_t; // 指定底层类型的前向声明
+  enum Color : std::uint8_t {
+    black, white, red, green
+  };
   ```
