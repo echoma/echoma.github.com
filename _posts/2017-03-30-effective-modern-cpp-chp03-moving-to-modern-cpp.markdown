@@ -191,3 +191,74 @@ Color c = Color::black; // scoped enum必须使用Color::指明枚举类型
     black, white, red, green
   };
   ```
+
+## 11. 尽量用deleted函数取代private无定义函数
+
+* 在C++98中，如果我们要禁用拷贝构造函数，通常我们会将拷贝构造函数声明为`private`，且不编写他的实现代码。这样所有拷贝对象的地方，都会在链接时发生错误。
+
+* c++11中新增了`deleted function`特性：
+
+```c++
+class SomeFoo {
+  public:
+    SomeFoo(const SomeFoo&) = delete;
+    SomeFoo& operator=(const SomeFoo&) = delete;
+}
+```
+
+* 该语法看上去跟之前`private`声明方式只是风格不同，其实差异很大。`deleted function`有以下几方面的优势：
+
+  * 编译期就会产生错误，而且错误信息更加清晰。
+  * 即使是成员函数、友类也无法调用。
+  * 不仅仅类成员函数可以用，所有函数都可以标记为`deleted function`。
+  * 通过使用该特性，可以禁止函数重载的某种形式，可以禁止模板的某些类型的特化。
+
+## 12. 将重写函数宣告为override
+
+* 子类对基类方法的重写，需要满足以下条件：
+
+  * 基类函数必须是virtual
+  * 基类与子类函数的名称必须相同（析构函数除外）
+  * 基类与子类函数的参数类型必须相同。
+  * 基类与子类函数的const标记相同。
+  * 基类与子类函数的返回值类型和异常定义必须相同。
+  * c++11新增：基类与子类函数的引用限定符必须相同。
+
+* 根据以上规则，下面这段代码中，子类没能重写任何父类的函数：
+
+```c++
+#include <iostream>
+#include <fstream>
+#include <cstdint>
+#include <typeinfo>
+using namespace std;
+
+class Base {
+public:
+  virtual void mf1() const { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  virtual void mf2(int x) { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  virtual void mf3() & { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  virtual void mf4() const { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+};
+
+class Derived: public Base {
+public:
+  virtual void mf1() { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  virtual void mf2(unsigned int x) { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  virtual void mf3() && { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+  void mf4() const { cout << __FUNCTION__ << " @ " << __LINE__ << endl; }
+};
+
+int main()
+{
+    Base* b = new Derived();
+    b->mf4();
+    return 0;
+}
+```
+
+* 上面这段代码在大多数编译器都不会产生任何警告信息(echo:`g++5.4`开启`Wall`选项不会有任何告警信息)。而这样的代码可能根本不是开发人员的意图，开发人员可能想要重写。将函数声明为`override`，可以让编译器在未能成功重写的函数处给出错误。
+
+* `override`还有一个好处。我们修改基类的函数声明后，影响的范围在c++98时代是很难评估的，我们不知道哪些子类重写了该函数，只能靠全面的测试来排除。而有了`override`，编译器将为我们指出受影响的子类。
+
+* TODO：本章还有关于左值、右值的讨论，还没太看懂，以后看了右值+move语法后来补充。
