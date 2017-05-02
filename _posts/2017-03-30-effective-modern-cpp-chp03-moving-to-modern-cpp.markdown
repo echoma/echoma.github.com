@@ -201,8 +201,8 @@ Color c = Color::black; // scoped enum必须使用Color::指明枚举类型
 ```c++
 class SomeFoo {
   public:
-    SomeFoo(const SomeFoo&) = delete;
-    SomeFoo& operator=(const SomeFoo&) = delete;
+    SomeFoo(const SomeFoo&) = deleted;
+    SomeFoo& operator=(const SomeFoo&) = deleted;
 }
 ```
 
@@ -296,11 +296,11 @@ int f(int x) noexcept; // c++11方式。较多优化。
 
 * constexpr比const提供了更多的特性：
   1. constexpr对象必须在编译期就能确定数值。
-  2. constexpr函数如果无法在编译器确定数值，其行为就像普通函数一样。
+  2. constexpr函数如果无法在编译期确定数值，其行为就像普通函数一样。
 
 * c++11中，constexpr函数只能有一条语句，且必须是return语句。而c++14中不需要了。
 
-* c++11中，类成员函数可以使constexpr的，甚至构造函数也可以(用于构造可以在编译器确定数值的对象)。
+* c++11中，类成员函数可以使constexpr的，甚至构造函数也可以(用于构造可以在编译期确定数值的对象)。
 
 ## 16. 让const成员函数具备多线程安全
 
