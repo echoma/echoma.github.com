@@ -91,3 +91,37 @@ int main()
 ```
 
 * 总结：move操作表示无条件转换为rvalue，forward表示只在rvalue时才转为rvalue。move通常会造成移动操作，forward只是对lvalue/rvalue属性的完美转发。
+
+## 24. 区别universal reference与rvalue reference
+
+* `T&&`这样的形式，在大多数情况下是右值引用，但某些情况下可以是左值引用。实际上，`T&&`还可以引用const、volatile类型的对象。由于它的这种前所未有的弹性，本书作者将它称为`universal reference`。
+
+* 满足下面两个两件的对象的类型将是`universal reference`：
+
+  1. 变量的类型必须通过类型推导确定（因此对象可能被推导为右值引用或左值引用）；
+  2. 声明形式必须是`T&&`，不能有const、volatile等修饰符。
+
+* 有两种场景会满足上面的两个条件，导致出现`universal reference`：
+
+```c++
+template<typename T>
+void func(T&& param); // param是universal reference
+
+auto&& var2 = var1; // var2是universal reference
+```
+
+* 以下场景看似满足上面的条件，但实际上没有满足：
+
+```c++
+template<typename T>
+void f(std::vector<T>&& param); // 声明形式不是T&&，因此param是右值引用
+
+template<typename T>
+void func(const T&& param); // 因为有const,param一定是右值引用
+
+template<typename T>
+class vector {
+public:
+  void push_back(T&& x); // 这里只有模板类的推导，x是不需要推导的，因此x是右值引用
+};
+```
