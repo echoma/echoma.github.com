@@ -179,3 +179,82 @@ public:
   * 来源对象是lvalue。除了少数例外（第25条），只有rvalue才能被移动。
 
 * 我们编写模板时，无法确定类型是否支持移动操作，是否移动操作的成本较低，也不知道是否会用到移动操作。所以我们要假设移动操作不存在，假设成本没有较低，假设不会用到移动操作。
+
+## 30. 让自己熟悉完美转发失败的情况
+
+* 本节列举了几种导致完美转发失败的情形。在看这些情形前，我们先列出完美转发的常见形态：
+
+```c++
+template<typename T>
+void fwd(T&& param) // 接受任何引数
+{
+  f(std::forward<T>(param)); // 转发给函数f
+}
+```
+
+* 情况1：大括号初始化
+
+```c++
+// 如果函数f是这样的：
+void f(const std::vector<int>& v);
+
+// 对fwd函数模板这样调用将会编译出错
+fwd({1,2,3});
+```
+
+编译错误的原因是`无法推导`。权宜的做法是：
+
+```
+auto init_list = {1,2,3}; // init_list的类型被推导为std::initializer_list
+
+fwd(init_list); // 编译成功，完美转发。
+```
+
+* 情况2：用0或者NULL作为空指针
+
+根据第8条，0或NULL实际上是整数类型，会造成类型推导错误，导致转发整数类型，而不是转发指针类型。
+
+* 情况3：只有声明（但没有定义）的static const整数成员
+
+```c++
+class Widget {
+public:
+  static const std::size_t MinVals = 28; // 声明
+};
+
+fwd(Widget::MinVals); // 错误，无法连接
+```
+
+原因是`Widget::MinVals`不具备真实地址，不可能进行移动操作。
+
+但`Widget::MinVals`用在很多场合都是没问题的，例如作为函数参数、做四则运算等。
+
+* 情况4：重载函数名称、模板名称
+
+```c++
+int processVal(int value);
+int processVal(int value, int priority);
+
+fwd(processVal); // 错误，不知道用哪个
+```
+
+```c++
+template<typename T>
+T workOnVal(T param)
+{ ... }
+
+fwd(workOnVal); // 错误！应当实例化这个模板，不然没有地址。
+```
+
+* 比特位
+
+```c++
+struct Foo {
+  first:4;
+};
+
+Foo foo;
+fwd(foo.first); // 错误
+```
+
+原因：指针能够指向的最小单元是char，无法指向比特，c++标准明确禁止对比特位的引用。
