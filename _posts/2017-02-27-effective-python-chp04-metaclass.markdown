@@ -68,6 +68,8 @@ exam = Exam()
 exam.math_grade = 40
 ```
 
+> 注意：上文的这种写法是完全错误的！Grade的__set__函数完全没有被调用。math_grade必须是类成员（而不是对象的成员）才可以。python官方文档的例子也只有类成员的例子。
+
 ## 32. 用\_\_getattr\_\_、\_\_getattributer\_\_和\_\_setattr\_\_实现按需生成的属性
 
 * 自行了解这几个概念即可。

@@ -249,3 +249,5 @@ def safe_division(number, divisor, **kwargs):
     if kwargs:
         rase TypeError('Unexpected **kwargs: %r' % kwargs)
 ```
+
+> 注意：上面这种写法完全是错误的，这种写法运行会出错，因为使用了**kwargs是不接受关键字参数的。本书作者完全没有对代码进行验证。
