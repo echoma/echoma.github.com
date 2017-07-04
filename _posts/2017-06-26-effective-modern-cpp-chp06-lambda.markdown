@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "《effective modern c++》笔记 第6章 lambda表达式"
-date:   2017-05-05 13:17:21 +0800
+date:   2017-06-26 13:17:21 +0800
 ---
 
 * 目录
@@ -61,7 +61,7 @@ auto func = std::bind(
 
 * 上面代码中`参数data是const引用`的解释：lambda表达式建立的`closure class`内部的operator()成员函数是const的。但是bind object内部的构建的data并不是const的。因此我们要把参数data主动声明为const。
 
-## 33/ 对auto&&参数使用decltype，再做std::forward
+## 33. 对auto&&参数使用decltype，再做std::forward
 
 * c++14中的`generic lambda`可以让参数使用auto。其实它的实现很简单，就是让lambda的closure class中operator()成员函数成为模板。
 
