@@ -220,6 +220,10 @@ th {
   border: 1px solid #e9ecef;
 }
 
-tbody tr:nth-child(2n+1) td, tbody tr:nth-child(2n+1) th {
+th {
+    background-color: #d1d3d5; 
+}
+
+tbody tr:nth-child(2n) td, tbody tr:nth-child(2n) th {
     background-color: #f1f3f5;
 }
