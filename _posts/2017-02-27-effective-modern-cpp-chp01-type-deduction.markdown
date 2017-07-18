@@ -2,6 +2,7 @@
 layout: post
 title:  "《effective modern c++》笔记 导读+第1章 类型推导"
 date:   2017-02-27 13:06:21 +0800
+category: Language
 tags: [EffectiveModernCpp, Cpp]
 ---
 
