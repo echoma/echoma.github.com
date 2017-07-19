@@ -2,10 +2,14 @@
 title: 进击的牛牛
 email: fatmck@163.com
 description: >
-  记录自己工作过程中跟开发相关的一些折腾、笔记、思考。
+  一些可以公开的、跟开发相关的原创内容。
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://echoma.github.io"
 github_username:  echoma
 
 # Build settings
 markdown: kramdown
+
+paginate:10
+paginate_path: "page:num"
+gems: [jekyll-paginate]
